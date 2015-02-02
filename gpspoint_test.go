@@ -34,7 +34,7 @@ func TestDistances(t *testing.T) {
 		d := tc.a.DistanceTo(tc.b)
 		delta := math.Abs(d - tc.distance)
 		if delta > 0.1 {
-			t.Logf("Incorrect distance between %v and %v - Expected %f, Got %f (∂=%f)", tc.a, tc.b, tc.distance, d, tc.distance-d)
+			t.Logf("Incorrect distance between %v and %v - Expected %f, Got %f (∂=%f)", tc.a, tc.b, tc.distance, d, delta)
 			t.Fail()
 		}
 	}
@@ -43,8 +43,9 @@ func TestDistances(t *testing.T) {
 func TestCourses(t *testing.T) {
 	for _, tc := range geoTests {
 		c := tc.a.BearingTo(tc.b)
-		if c != tc.course {
-			t.Logf("Incorrect course between %v and %v - Expected %f, Got %f (∆=%f)", tc.a, tc.b, tc.course, c, tc.course-c)
+		delta := math.Abs(c - tc.course)
+		if delta > 0.5 {
+			t.Logf("Incorrect course between %v and %v - Expected %f, Got %f (∆=%f)", tc.a, tc.b, tc.course, c, delta)
 			t.Fail()
 		}
 	}
